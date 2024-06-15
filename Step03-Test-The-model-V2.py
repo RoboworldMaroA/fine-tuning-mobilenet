@@ -17,11 +17,12 @@ print(categories)
 
 #load the saved model :
 #old path
-modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV3.h5"
+# modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV3.h5"
 #.keras model
-modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV3.keras"
+# modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV4.keras"
 #new path
 #modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/FishModels/H5/FishV3.h5"
+modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/saved_model.keras"
 
 
 # Old version
@@ -41,7 +42,7 @@ def classify_image(imageFile):
     #deprecated version
     #img = img.resize((320,320), Image.ANTIALIAS)
 
-    img = img.resize((320,320), Image.Resampling.LANCZOS)
+    img = img.resize((224,224), Image.Resampling.LANCZOS)
     x= image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
 
@@ -60,8 +61,8 @@ def classify_image(imageFile):
 
 
 # img_path ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/seabas-test.png"
-img_path ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/seabass-test3.png"
-#img_path ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/red-sea-bream-test.png"
+# img_path ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/seabass-test3.png"
+img_path ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/red-sea-bream-test.png"
 
 resultText = classify_image(img_path)
 print(resultText)

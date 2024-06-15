@@ -1,12 +1,13 @@
 # transfer learning MobileNet-V3 large
-
+# This version will be saving in savedModel version. I think that it might be a preferred version 
 #import libraries from keras 
 from tensorflow.keras import Model
 from tensorflow.keras.applications import MobileNetV3Large
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
 from tensorflow.keras.optimizers import Adam
-
+import tensorflowjs as tfjs
+import tensorflow as tf
 
 trainPath ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/train"
 
@@ -23,7 +24,7 @@ ValidGenerator = ImageDataGenerator(
 
 #Build Model
 
-baseModel = MobileNetV3Large( weights= "imagenet", include_top=False)
+baseModel = MobileNetV3Large( weights= "imagenet", input_shape=(224, 224, 3),include_top=False)
 
 x = baseModel.output
 x = GlobalAveragePooling2D()(x)
@@ -45,15 +46,38 @@ for layer in model.layers[:5]:
 
 # Compile
 
+# optimizer = Adam(learning_rate = 0.0001)
 optimizer = Adam(learning_rate = 0.0001)
 model.compile(loss = "categorical_crossentropy", optimizer=optimizer, metrics=['accuracy'])
 
 #train
-model.fit(trainGenerator, validation_data= ValidGenerator, epochs=2)
+model.fit(trainGenerator, validation_data= ValidGenerator, epochs=5)
 
 # modelSavedPath = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV3.h5"
 # model.save(modelSavedPath)
-modelSavedPath2 = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV3.keras"
-model.save(modelSavedPath2)
+# modelSavedPath2 = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/FishV3.keras"
+modelSavedPathSavedModel = "/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/dataset_for_model/saved_model"
 
 
+# model.save(modelSavedPathSavedModel)
+# save_format='tf'
+model.export(modelSavedPathSavedModel)
+saved_model_added_layers ="/Users/marek/Programowanie/Object_Detection_Web_Browswer/FineTuningMobilenetV3/Fish_Kaggle/Fish_Dataset/saved_model4"
+# model.export()
+
+# tfjs.converters.save_keras_model(model, saved_model_added_layers)
+
+# def convert():
+#     #load model
+#     model = tf.keras.models.load_model(
+#     modelSavedPathSavedModel, custom_objects=None, compile=True, safe_mode=False)
+#     # modelSavedPath,custom_objects={'Conv2D': conv})
+
+#     model.summary()
+
+
+#     tfjs.converters.save_keras_model(model, saved_model_added_layers)
+
+
+
+# convert()
